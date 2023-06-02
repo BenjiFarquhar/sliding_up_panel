@@ -244,6 +244,10 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
     });
 
     widget.controller?._addState(this);
+    widget.controller?.animatePanelToSnapPoint(
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOutCubic,
+    );
   }
 
   @override
