@@ -158,6 +158,7 @@ class SlidingUpPanel extends StatefulWidget {
   /// in the closed position and must be opened. PanelState.OPEN indicates that
   /// by default the Panel is open and must be swiped closed by the user.
   final PanelState defaultPanelState;
+  final VoidCallback? onPanelSnap;
 
   SlidingUpPanel(
       {Key? key,
@@ -165,6 +166,7 @@ class SlidingUpPanel extends StatefulWidget {
       this.panelBuilder,
       this.body,
       this.collapsed,
+      this.onPanelSnap,
       this.minHeight = 100.0,
       this.maxHeight = 500.0,
       this.snapPoint,
@@ -569,6 +571,10 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
         targetPos,
         velocity);
 
+    if (targetPos == widget.snapPoint) {
+      widget.onPanelSnap?.call();
+    }
+
     _ac.animateWith(simulation);
   }
 
@@ -615,9 +621,10 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
   //animate the panel position to the snap point
   //REQUIRES that widget.snapPoint != null
   Future<void> _animatePanelToSnapPoint(
-      {Duration? duration, Curve curve = Curves.linear}) {
+      {Duration? duration, Curve curve = Curves.linear}) async {
     assert(widget.snapPoint != null);
-    return _ac.animateTo(widget.snapPoint!, duration: duration, curve: curve);
+    await _ac.animateTo(widget.snapPoint!, duration: duration, curve: curve);
+    widget.onPanelSnap?.call();
   }
 
   //set the panel position to value - must
