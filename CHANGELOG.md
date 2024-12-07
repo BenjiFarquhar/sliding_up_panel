@@ -1,3 +1,7 @@
+## [2.0.1] - [December 7, 2024]
+### Features
+- Upgrade flutter sdk version
+
 ## [2.0.0+1] - [April 26, 2021]
 ### Features
 - Formatted code according to dartfmt
